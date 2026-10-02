@@ -1,0 +1,10 @@
+# Nunca enviar segredos nem dados de clientes
+.env
+pedidos.json
+pedidos.json.tmp
+teste_mp*.py
+resposta_mp.txt
+*.pyc
+__pycache__/
+# O jogo é grande: envie o zip direto para o servidor, não pelo Git
+wwwroot/jogo/*.zip

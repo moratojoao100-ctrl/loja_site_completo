@@ -1,0 +1,182 @@
+/* Parceria DJVieon e Último Distrito - Net Forge Estúdios
+   Tema escuro, alto contraste, pensado para quem usa leitor de tela ou baixa visão.
+   Fica na pasta acima das páginas (as páginas chamam ../estilo.css). */
+
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap");
+
+:root {
+  --fundo: #0a1620;
+  --painel: #112431;
+  --painel-2: #163042;
+  --borda: #2f4d60;
+  --texto: #eef6fa;
+  --suave: #b9cdd9;
+  --ciano: #4fe3ff;
+  --ambar: #ffc15e;
+  --erro: #ff8a80;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Atkinson Hyperlegible", "Segoe UI", Verdana, system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+/* ---------- Acessibilidade ---------- */
+.pular {
+  position: absolute; left: .75rem; top: -4rem;
+  background: var(--ciano); color: var(--fundo);
+  padding: .6rem 1rem; border-radius: 6px; font-weight: 700; z-index: 10;
+}
+.pular:focus { top: .75rem; }
+
+:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Cabeçalho (com a faixa de "onda sonora") ---------- */
+header {
+  padding: 2.5rem 1.25rem 1.75rem;
+  max-width: 62rem; margin: 0 auto;
+}
+header h1 {
+  margin: 0; font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.15; font-weight: 700;
+}
+header .sub { color: var(--ciano); font-size: 1.15rem; margin-top: .35rem; font-weight: 700; }
+header::after {
+  content: ""; display: block; height: 14px; margin-top: 1.5rem; border-radius: 3px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--ciano) 0 3px, transparent 3px 9px),
+    linear-gradient(var(--ciano), var(--ciano));
+  background-size: 100% 100%, 100% 3px;
+  background-position: 0 0, 0 100%;
+  background-repeat: no-repeat;
+  -webkit-mask: linear-gradient(90deg, #000 0 35%, transparent 100%);
+          mask: linear-gradient(90deg, #000 0 35%, transparent 100%);
+}
+
+/* ---------- Menu ---------- */
+nav.principal { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
+nav.principal ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+nav.principal a {
+  display: block; padding: .6rem 1rem; min-height: 44px;
+  color: var(--texto); text-decoration: none; font-weight: 700;
+  border: 2px solid var(--borda); border-radius: 8px; background: var(--painel);
+  transition: border-color .15s, background .15s;
+}
+nav.principal a:hover { border-color: var(--ciano); background: var(--painel-2); }
+nav.principal a[aria-current="page"] { background: var(--ciano); border-color: var(--ciano); color: var(--fundo); }
+
+/* ---------- Conteúdo ---------- */
+main { max-width: 62rem; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
+main > * { max-width: 100%; }
+p { max-width: 70ch; margin: 0 0 1rem; }
+strong { color: #fff; }
+
+h2 { font-size: 1.6rem; line-height: 1.25; margin: 2.5rem 0 1rem; }
+h3 { font-size: 1.2rem; margin: 1.25rem 0 .5rem; }
+h2.ciano, h3.ciano { color: var(--ciano); }
+
+a { color: var(--ciano); text-underline-offset: 3px; }
+a:hover { color: #fff; }
+.ciano-texto { color: var(--ciano); font-weight: 700; }
+
+.grande { font-size: 1.3rem; }
+
+/* ---------- Caixas ---------- */
+.box {
+  background: var(--painel);
+  border: 2px solid var(--borda);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1.25rem;
+}
+.box.ciano { border-color: var(--borda); border-left: 8px solid var(--ciano); }
+.box > :last-child { margin-bottom: 0; }
+.box h3:first-child { margin-top: 0; }
+
+.destaque {
+  background: linear-gradient(135deg, var(--painel-2), var(--painel));
+  border: 2px solid var(--ciano);
+  border-radius: 12px;
+  padding: 1.75rem 1.75rem 1.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+/* ---------- Listas e passos ---------- */
+.lista { margin: 1rem 0 0; padding-left: 1.4rem; }
+.lista li { margin-bottom: .6rem; max-width: 70ch; }
+.lista li::marker { color: var(--ciano); }
+
+.passo { margin: 0 0 .75rem; padding-left: 2.4rem; position: relative; }
+.passo b {
+  position: absolute; left: 0; top: .1rem;
+  width: 1.8rem; height: 1.8rem; line-height: 1.8rem; text-align: center;
+  background: var(--ciano); color: var(--fundo); border-radius: 50%; font-size: 1rem;
+}
+
+/* ---------- Grade de profissões ---------- */
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.cartao {
+  background: var(--painel); border: 2px solid var(--borda); border-radius: 10px;
+  padding: 1rem 1.25rem; border-top: 5px solid var(--ciano);
+}
+.cartao h3 { margin: 0 0 .35rem; font-size: 1.15rem; }
+.cartao p { margin: 0; color: var(--suave); font-size: 1rem; }
+
+/* ---------- Botões ---------- */
+.button-link, .button-action {
+  display: inline-block; min-height: 48px;
+  padding: .75rem 1.4rem; margin: .5rem .5rem .5rem 0;
+  font: inherit; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer;
+  color: var(--texto); background: transparent;
+  border: 2px solid var(--texto); border-radius: 8px;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.button-link:hover { background: var(--texto); color: var(--fundo); }
+.button-link.ciano, .button-action {
+  background: var(--ciano); border-color: var(--ciano); color: var(--fundo);
+}
+.button-link.ciano:hover, .button-action:hover:not([disabled]) { background: #fff; border-color: #fff; color: var(--fundo); }
+.button-action[disabled] {
+  background: transparent; color: var(--suave); border-color: var(--borda); border-style: dashed; cursor: not-allowed;
+}
+
+/* ---------- Loja ---------- */
+.pacotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+.pacote {
+  background: var(--painel-2); border: 2px solid var(--borda); border-radius: 10px;
+  padding: 1.25rem; text-align: center;
+}
+.pacote .qtd { font-size: 3rem; font-weight: 700; line-height: 1; color: var(--ciano); }
+.pacote .preco { font-size: 1.3rem; font-weight: 700; color: var(--ambar); margin: .5rem 0 .75rem; }
+.pacote .button-action { width: 100%; margin: 0; }
+
+/* ---------- Rodapé ---------- */
+footer {
+  max-width: 62rem; margin: 2rem auto 0; padding: 1.5rem 1.25rem 3rem;
+  border-top: 2px solid var(--borda); color: var(--suave); font-size: 1rem;
+}
+footer nav { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-bottom: .75rem; }
+footer a { color: var(--texto); }
+footer p { margin: 0; }
+
+/* ---------- Telas pequenas ---------- */
+@media (max-width: 40rem) {
+  body { font-size: 1.05rem; }
+  header { padding-top: 1.75rem; }
+  .box, .destaque { padding: 1rem; }
+  .button-link { display: block; margin-right: 0; }
+}
