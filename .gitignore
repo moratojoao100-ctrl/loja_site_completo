@@ -7,4 +7,4 @@ resposta_mp.txt
 *.pyc
 __pycache__/
 # O jogo é grande: envie o zip direto para o servidor, não pelo Git
-wwwroot/jogo/*.zip
+docs/jogo/*.zip
