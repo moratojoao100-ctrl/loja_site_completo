@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loja | Parceria DJVieon e Último Distrito</title>
+<meta name="description" content="Compre créditos VIP do Último Distrito: escolha a quantidade, pague por PIX e abra um chamado no jogo. O VIP é creditado no seu personagem.">
+<link rel="stylesheet" href="../estilo.css">
+<style>
+.campo{margin:0 0 1rem}
+.campo label{display:block;font-weight:bold;margin-bottom:.3rem}
+.campo input{width:100%;max-width:22rem;padding:.6rem;font-size:1.1rem;border:2px solid currentColor;border-radius:6px;background:transparent;color:inherit}
+.campo input:focus{outline:3px solid #ffc15e;outline-offset:2px}
+.campo small{display:block;margin-top:.3rem;opacity:.85}
+#total{font-size:1.2rem;font-weight:bold}
+.copiavel{width:100%;max-width:40rem;padding:.6rem;font-family:monospace;font-size:1rem;color:inherit;background:transparent;border:2px solid currentColor;border-radius:6px}
+textarea.copiavel{height:6rem}
+</style>
+</head>
+<body>
+<a href="#conteudo" class="pular">Pular para o conteúdo</a>
+<header>
+<h1>Loja da parceria</h1>
+<div class="sub">DJVieon e Último Distrito</div>
+</header>
+<nav class="principal" aria-label="Menu da parceria">
+<ul>
+<li><a href="index.html">A parceria</a></li>
+<li><a href="ajuda.html">Ajuda do jogo</a></li>
+<li><a href="loja.html" aria-current="page">Loja</a></li>
+<li><a href="https://radiolc.com">Site do DJVieon</a></li>
+</ul>
+</nav>
+<main id="conteudo">
+<h2>Comprar créditos VIP</h2>
+<div class="box ciano">
+<p>Cada crédito custa <strong>R$ 1,00</strong>. Escolha a quantidade que quiser, de <strong>10</strong> até <strong>1000</strong>. Você paga por PIX e abre um chamado no jogo com o comprovante. Um administrador credita o VIP no seu personagem.</p>
+</div>
+
+<div class="box">
+<div id="formulario">
+<div class="campo">
+<label for="jogador">Nome do personagem</label>
+<input id="jogador" type="text" maxlength="32" autocomplete="off" aria-describedby="dica-nome">
+<small id="dica-nome">Do jeito que aparece no jogo.</small>
+</div>
+<div class="campo">
+<label for="quantidade">Quantidade de créditos</label>
+<input id="quantidade" type="text" inputmode="numeric" autocomplete="off" aria-describedby="dica-qtd">
+<small id="dica-qtd">Só números inteiros, de 10 a 1000.</small>
+</div>
+<p id="total" aria-live="polite">Total: digite a quantidade.</p>
+<button class="button-action" id="btn-pix" type="button">Ver dados do PIX</button>
+<p id="erro" role="alert" class="ciano-texto"></p>
+</div>
+
+<div id="pix" hidden aria-live="polite">
+<h3>Pague com PIX</h3>
+<p id="resumo"></p>
+<p id="rotulo-chave">Chave PIX:</p>
+<input class="copiavel" id="chave" readonly aria-labelledby="rotulo-chave">
+<p><button class="button-action" id="btn-chave" type="button">Copiar chave PIX</button></p>
+<h3>Depois de pagar</h3>
+<p class="passo"><b>1.</b> Entre no jogo, aperte <strong>Tab</strong> e abra o <strong>menu de chamados</strong>.</p>
+<p class="passo"><b>2.</b> Cole a mensagem abaixo e anexe o comprovante do PIX, ou diga que pagou e o valor.</p>
+<p id="rotulo-msg">Mensagem para o chamado:</p>
+<textarea class="copiavel" id="mensagem" readonly aria-labelledby="rotulo-msg"></textarea>
+<p><button class="button-action" id="btn-msg" type="button">Copiar mensagem</button>
+<button class="button-link" id="btn-voltar" type="button">Fazer outro pedido</button></p>
+</div>
+</div>
+
+<div class="box">
+<h3>Dúvidas?</h3>
+<p>Dentro do jogo, aperte <strong>Tab</strong>, entre no <strong>menu de chamados</strong> e abra um chamado. Fora do jogo, fale com o pessoal no <a href="https://radiolc.com" class="ciano-texto">site do DJVieon</a>.</p>
+</div>
+</main>
+<footer>
+<nav aria-label="Rodapé">
+<a href="index.html">A parceria</a>
+<a href="ajuda.html">Ajuda do jogo</a>
+<a href="loja.html">Loja</a>
+<a href="https://radiolc.com">Site do DJVieon</a>
+</nav>
+<p>Parceria DJVieon e Net Forge Estúdios. © 2025-2026 Net Forge Estúdios. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+// >>> EDITE AQUI: coloque a sua chave PIX entre as aspas (de preferência uma chave aleatória) <<<
+var CHAVE_PIX = "4198629803";
+var MIN = 10, MAX = 1000, PRECO = 1.0;
+
+function $(id){ return document.getElementById(id); }
+function brl(v){ return "R$ " + v.toFixed(2).replace(".", ","); }
+function copiar(id, btn, texto){
+  var el = $(id); el.focus(); el.select();
+  var ok = function(){ btn.textContent = texto; };
+  if (navigator.clipboard) { navigator.clipboard.writeText(el.value).then(ok); }
+  else { document.execCommand("copy"); ok(); }
+}
+
+$("quantidade").addEventListener("input", function(){
+  var s = this.value.replace(/\D/g, "");
+  this.value = s;
+  var q = parseInt(s, 10);
+  $("total").textContent = (q >= MIN && q <= MAX)
+    ? "Total: " + brl(q * PRECO) + " por " + q + " créditos."
+    : "Total: digite uma quantidade de " + MIN + " a " + MAX + ".";
+});
+
+$("btn-pix").addEventListener("click", function(){
+  var erro = $("erro"); erro.textContent = "";
+  var nome = $("jogador").value.trim(), q = parseInt($("quantidade").value, 10);
+  if (!nome) { erro.textContent = "Digite o nome do seu personagem."; $("jogador").focus(); return; }
+  if (!(q >= MIN && q <= MAX)) { erro.textContent = "Digite uma quantidade de " + MIN + " a " + MAX + " créditos."; $("quantidade").focus(); return; }
+  $("resumo").textContent = q + " créditos VIP para o personagem " + nome + ". Valor a pagar: " + brl(q * PRECO) + ".";
+  $("chave").value = CHAVE_PIX;
+  $("mensagem").value = "Comprei " + q + " créditos VIP para o personagem " + nome + ". Paguei " + brl(q * PRECO) + " por PIX. Segue o comprovante.";
+  $("formulario").hidden = true; $("pix").hidden = false;
+  $("pix").scrollIntoView();
+  $("btn-chave").focus();
+});
+
+$("btn-chave").addEventListener("click", function(){ copiar("chave", this, "Chave copiada"); });
+$("btn-msg").addEventListener("click", function(){ copiar("mensagem", this, "Mensagem copiada"); });
+$("btn-voltar").addEventListener("click", function(){
+  $("pix").hidden = true; $("formulario").hidden = false; $("jogador").focus();
+});
+</script>
+</body>
+</html>
